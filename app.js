@@ -35,8 +35,8 @@ app.set('views', __dirname + '/src/views');
 
 app.use('/api/carts', cartsRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/users', usersRouter);
 app.use('/views', viewsRouter);
-app.use('/users', usersRouter);
 
 const httpServer = app.listen(PORT, () => {
     console.log(`Servidor escuchando al puerto ${PORT}.`)

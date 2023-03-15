@@ -57,12 +57,13 @@
     }
 
     if (logoutButton) {
-        logoutButton.addEventListener('click', e => {
+        logoutButton.addEventListener('click', async e => {
             e.preventDefault();
-            fetch('/users/logout', {
-                method: 'GET'
+            await fetch('/api/users/logout', {
+                method: 'GET',
+                withCredentials: true
             })
-            window.open('/views/login', '_self')
+            .then(window.location.href = '/views/login') 
         })
     }
 

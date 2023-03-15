@@ -10,8 +10,7 @@ router.get('/logout', (request, response) => {
             console.log(error);
             response.json({ message: error })
         } else {
-            // response.json({ message: 'Sesión eliminada con éxito.' });
-            response.redirect('/views/login')
+            response.json({ message: 'Sesión eliminada con éxito.' });
         }
     })
 });
