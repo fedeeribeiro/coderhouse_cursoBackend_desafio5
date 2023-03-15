@@ -22,11 +22,11 @@
         {{/each}}
 
         {{#if results.hasPrevPage}}
-            <button onclick="location.href={{results.prevLink}}">Ir a página {{results.prevPage}}</button>
+            <button onclick="location.href='{{results.prevLink}}'">Ir a página {{results.prevPage}}</button>
         {{/if}}
 
         {{#if results.hasNextPage}}
-            <button onclick="location.href={{results.nextLink}}">Ir a página {{results.nextPage}}</button>
+            <button onclick="location.href='{{results.nextLink}}'">Ir a página {{results.nextPage}}</button>
         {{/if}}
 
     </div>
