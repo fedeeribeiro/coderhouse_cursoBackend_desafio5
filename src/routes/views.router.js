@@ -31,6 +31,7 @@ router.get('/realTimeProducts', (request, response) => {
 
 router.get('/products', async (request, response) => {
     const results = await productManager.getProducts(request.query);
+    const user = { email: request.session.email, name: request.session.name, role: request.session.role };
     if (results.prevLink) {
         results.prevLink = (results.prevLink).replace('api', 'views')
     }
@@ -50,7 +51,7 @@ router.get('/products', async (request, response) => {
             status: product.status
         }
     });
-    response.render('products', { products, results })
+    response.render('products', { products, results, user })
 });
 
 router.get('/carts/:cartId', async (request, response) => {
@@ -71,20 +72,20 @@ router.get('/carts/:cartId', async (request, response) => {
     response.render('cart',{ products, cartId, sumCart })
 });
 
-router.get('/login', (req, res) => {
-    res.render('login')
+router.get('/login', (request, response) => {
+    response.render('login')
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', (request, res) => {
     res.render('register')
 });
 
-router.get('/errorRegister', (req, res) => {
-    res.render('errorRegister')
+router.get('/errorRegister', (request, response) => {
+    response.render('errorRegister')
 });
 
-router.get('/errorLogin', (req, res) => {
-    res.render('errorLogin')
+router.get('/errorLogin', (request, response) => {
+    response.render('errorLogin')
 });
 
 export default router;

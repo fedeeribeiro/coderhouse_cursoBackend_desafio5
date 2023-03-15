@@ -2,7 +2,7 @@ import { usersModel } from '../../models/users.model.js';
 
 export default class UsersManager {
     async createUser(user) {
-        const { email, password } = user;
+        const { email } = user;
         try {
             const userExists = await usersModel.find({ email });
             if (userExists.length === 0) {
@@ -12,18 +12,23 @@ export default class UsersManager {
                 return null
             }
         } catch (error) {
-            console.log(error);
-            throw new Error(error)
+            console.log(error)
         }
     }
 
     async loginUser(user) {
-        const { email, password } = user;
-        const foundUser = await usersModel.find({ email, password });
-        if (foundUser.length !== 0) {
-            return foundUser
-        } else {
-            return null
+        try {
+            const { email, password } = user;
+            const foundUser = await usersModel.find({ email, password });
+            if (foundUser.length !== 0) {
+                return foundUser
+            } else if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+                return [{...user, firstName: 'coder', lastName: 'house', admin: true, age: 9}]
+            } else {
+                return null
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 }

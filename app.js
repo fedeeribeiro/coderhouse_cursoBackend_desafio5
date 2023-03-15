@@ -19,6 +19,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use(session({
+    secret: 'sessionKey',
+    resave: false,
+    saveUninitialized: true,
+    store: new mongoStore({
+        mongoUrl: 'mongodb+srv://fedeeribeiro:coderhouse@cluster0.hj7njhs.mongodb.net/desafio5?retryWrites=true&w=majority'
+        })
+    })
+);
+
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/src/views');
@@ -27,17 +37,6 @@ app.use('/api/carts', cartsRouter);
 app.use('/api/products', productsRouter);
 app.use('/views', viewsRouter);
 app.use('/users', usersRouter);
-
-app.use(session({
-    secret: 'sessionKey',
-    resave: 'false',
-    saveUninitialized: true,
-    cookie: { maxAge: 60000},
-    store: new mongoStore({
-        mongoUrl: 'mongodb+srv://fedeeribeiro:coderhouse@cluster0.hj7njhs.mongodb.net/desafio5?retryWrites=true&w=majority'
-        })
-    })
-);
 
 const httpServer = app.listen(PORT, () => {
     console.log(`Servidor escuchando al puerto ${PORT}.`)

@@ -1,14 +1,16 @@
+<h3>Te damos la bienvenida, {{user.name}} | email: {{user.email}} | rol: {{user.role}} | <button id='logout'>Logout</button></h3>
+
 <h1>Productos</h1>
 
 {{#if products.length}}
 
-    <div class="products-container">
+    <div class='products-container'>
         
         {{#each products}}
 
-                <div class="product-container">
+                <div class='product-container'>
                     <h3>{{title}}</h3>
-                    <img src="{{thumbnail}}">
+                    <img src='{{thumbnail}}'>
                     <p>{{description}}</p>
                     <h4>Categoría: {{category}}</h4>
                     <h4>${{price}}</h4>
@@ -20,11 +22,11 @@
         {{/each}}
 
         {{#if results.hasPrevPage}}
-            <button id="prevPage" value={{results.prevLink}}>Ir a página {{results.prevPage}}</button>
+            <button id='prevPage' value={{results.prevLink}}>Ir a página {{results.prevPage}}</button>
         {{/if}}
 
         {{#if results.hasNextPage}}
-            <button id="nextPage" value={{results.nextLink}}>Ir a página {{results.nextPage}}</button>
+            <button id='nextPage' value={{results.nextLink}}>Ir a página {{results.nextPage}}</button>
         {{/if}}
 
     </div>
@@ -36,20 +38,31 @@
 {{/if}}
 
 <script>
-    const prevButton = document.getElementById("prevPage");
-    const nextButton = document.getElementById("nextPage");
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    const logoutButton = document.getElementById('logout');
     
     if (prevButton) {
         prevButton.addEventListener('click', e => {
-            e.preventDefault()
+            e.preventDefault();
             window.open(e.target.value, '_self')
         })
     }
 
     if (nextButton) {
         nextButton.addEventListener('click', e => {
-            e.preventDefault()
+            e.preventDefault();
             window.open(e.target.value, '_self')
+        })
+    }
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', e => {
+            e.preventDefault();
+            fetch('/users/logout', {
+                method: 'GET'
+            })
+            window.open('/views/login', '_self')
         })
     }
 

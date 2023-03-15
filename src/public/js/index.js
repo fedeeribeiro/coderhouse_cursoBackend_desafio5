@@ -32,7 +32,7 @@ deleteProductForm.addEventListener('submit', e => {
     const productId = formData.get('id');
 
     fetch(`/api/products/${productId}`, {
-        method: 'DELETE',
+        method: 'DELETE'
     })
     .then(response => response.json())
     socketClient.emit('updateProducts')

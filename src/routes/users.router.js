@@ -4,36 +4,41 @@ import UsersManager from '../persistence/daos/mongoManagers/UsersManager.js';
 const router = Router();
 const usersManager = new UsersManager();
 
-router.get('/logout', (req, res) => {
-    req.session.destroy( error => {
+router.get('/logout', (request, response) => {
+    request.session.destroy( error => {
         if (error) {
             console.log(error);
-            res.json({ message: error })
+            response.json({ message: error })
         } else {
-            res.json({ message: 'Sesión eliminada con éxito.' });
-            res.redirect('/views/login')
+            // response.json({ message: 'Sesión eliminada con éxito.' });
+            response.redirect('/views/login')
         }
     })
 });
 
-router.post('/register', async (req, res) => {
-    const newUser = await usersManager.createUser(req.body);
+router.post('/register', async (request, response) => {
+    const newUser = await usersManager.createUser(request.body);
     if (newUser) {
-        res.redirect('/views/login')
+        response.redirect('/views/login')
     } else {
-        res.redirect('/views/errorRegister')
+        response.redirect('/views/errorRegister')
     }
 });
 
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await usersManager.loginUser(req.body);
-    if (user.length !== 0) {
-        req.session.email = email;
-        req.session.password = password;
-        res.redirect('/views/products')
+router.post('/login', async (request, response) => {
+    const { email } = request.body;
+    const user = await usersManager.loginUser(request.body);
+    if (user) {
+        request.session.name = user[0].firstName;
+        request.session.email = email;
+        if (user[0].admin) {
+            request.session.role = 'admin'
+        } else {
+            request.session.role = 'user'
+        }
+        response.redirect('/views/products')
     } else {
-        res.redirect('/views/errorLogin')
+        response.redirect('/views/errorLogin')
     }
 })
 
